@@ -16,5 +16,5 @@ match($0, /^([^:]*):([0-9]+):[0-9]+: note: .*previous.*here/, m) {
   printf "# filepath:%s\n", filepath
   printf "# line_num:%s\n", line_num
 
-  printf "./cpp_comment_out.sh %s/%s %s\n", dirpath, filepath, line_num
+  printf "./cpp_comment_out.sh -i %s/%s %s\n", dirpath, filepath, line_num
 }
