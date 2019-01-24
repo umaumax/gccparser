@@ -1,0 +1,19 @@
+main.cpp: In function 'int add(int, int)':
+main.cpp:14:5: error: redefinition of 'int add(int, int)'
+ int add(int a, int b) {
+     ^~~
+main.cpp:4:5: note: 'int add(int, int)' previously defined here
+ int add(int a, int b) {
+     ^~~
+main.cpp: In function 'int main(int, char**)':
+main.cpp:20:7: error: no matching function for call to 'add()'
+   add();
+       ^
+main.cpp:4:5: note: candidate: int add(int, int)
+ int add(int a, int b) {
+     ^~~
+main.cpp:4:5: note:   candidate expects 2 arguments, 0 provided
+main.cpp:9:7: note: candidate: float add(float, float)
+ float add(float a, float b) {
+       ^~~
+main.cpp:9:7: note:   candidate expects 2 arguments, 0 provided
