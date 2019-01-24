@@ -13,8 +13,10 @@ function comment_out() {
 	func_end_line=$(ctags -x --c-types=f $filepath | sed -E 's/ (\W+)( *function)/\1 \2/' | sort -k 3 | sed -E 's/ +function +([0-9]+).*$/$\1/' | awk -F'$' -v line=$func_start_line 'next_func_line==0&&line<int($2){next_func_line=$2;} END{if(next_func_line!=0) printf "%d", next_func_line;}')
 	[[ -x $func_end_line ]] && return 1
 
-	local tmp_output=$(cat $filepath | sed -e "$func_start_line,$(($func_end_line - 1)) s:^:// $MAGIC_WORD :")
+	# NOTE: sedで多重置換が行われないようにMAGIC_WORDごと置換している
+	local tmp_output=$(cat $filepath | sed -E "$func_start_line,$(($func_end_line - 1)) s:^// $MAGIC_WORD |^:// $MAGIC_WORD :")
 	if [[ $replace_flag == 1 ]]; then
+		echo "[$filepath]"
 		echo "$tmp_output" >$filepath
 	else
 		echo "$tmp_output"
