@@ -18,5 +18,6 @@ int add(int a, int b) {
 
 int main(int argc, char* argv[]) {
   add();
+  std::cout << "hello\tworld" << std::endl;
   return 0;
 }
