@@ -20,3 +20,4 @@ void c() {
 
 }
 ```
+* 関数の途中のstructもcomment outされてしまう可能性がある?
