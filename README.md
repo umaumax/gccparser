@@ -13,19 +13,20 @@ gccのコンパイル結果(error message)をパースして，何らかの処�
 ./cpp_comment_out.sh -i main.cpp 13
 ```
 
-### Issue
-* `a`を指定すると`b`もコメントアウトされてしまう
+### Issue of using ctags
+* `a`を指定すると`b`,`bb`もコメントアウトされてしまう
   * catgsの出力のoptionを工夫する必要がありそう
 ```
 void a() {
 
 }
 static int b =123;
+struct bb {
+};
 void c() {
 
 }
 ```
-* 関数の途中のstructもcomment outされてしまう可能性がある?
 
 ## how to run python
 ### Mac OS X
@@ -35,6 +36,10 @@ pip install clang
 
 # for libclang.dylib
 LD_LIBRARY_PATH="/usr/local/opt/llvm/lib:$LD_LIBRARY_PATH" ./cpp_func_def.py
+```
+### Ubuntu
+```
+TODO: Write here!
 ```
 
 ## FYI
@@ -46,6 +51,8 @@ LD_LIBRARY_PATH="/usr/local/opt/llvm/lib:$LD_LIBRARY_PATH" ./cpp_func_def.py
 * [Clangのpython bindingsを使う \- 脱初心者を目指す]( http://asdm.hatenablog.com/entry/2015/01/08/170707 )
 * [libclangを使ってC\+\+のメンバにアノテーションをつける \- Qiita]( https://qiita.com/YosukeM/items/17232558c86dc236f317 )
 * [libclangのPython bindingsで構文解析する]( https://kimiyuki.net/blog/2017/08/17/libclang-python-bindings-tutorial/ )
+
+----
 
 ### ctags
 ```
