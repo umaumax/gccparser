@@ -12,7 +12,9 @@ class ClangFuncRangeParser:
         self.filepath = filepath
         self.index = Index.create()
         # NOTE: for avoid search extra include files
-        args = ['-nobuiltininc', '-nostdinc++']
+        # NOTE: Maybe, system-header-prefix is not needed?
+        # NOTE: If you want to see the help of clang index parser, add '--help' options to below list
+        args = ['-nobuiltininc', '-nostdinc++', '--system-header-prefix=".*"']
         self.tu = self.index.parse(None, [filepath, *args])
         if not self.tu:
             parser.error("unable to load input")
