@@ -18,7 +18,15 @@ function comment_out() {
 		[[ -z $func_end_line ]] && echo "Not found function end line" && return 1
 		local func_end_line=$(($func_end_line - 1))
 	else
-		local func_range=$(./cpp_func_def.py -l $func_start_line $filepath)
+		# NOTE: there are often .h file which must be .hpp
+		local target_filepath=$filepath
+		if [[ ${filepath##*.} == 'h' ]]; then
+			local target_filepath="cpp_comment_out_tmp_dummy_file.hpp"
+			ln -sf $filepath $target_filepath
+		fi
+		local func_range=$(./cpp_func_def.py -l $func_start_line $target_filepath)
+		[[ -L $target_filepath ]] && unlink $target_filepath
+
 		[[ -z $func_range ]] && echo "Not found function range" && return 1
 		local func_start_line=$(echo $func_range | awk '{print $1}')
 		local func_end_line=$(echo $func_range | awk '{print $2}')
@@ -45,5 +53,6 @@ replace_flag=0
 [[ $# -lt 2 ]] && echo "$0 [filepath] [func_start_line]" && exit 1
 
 [[ -z $USE_CTAG ]] && [[ $(uname) == "Darwin" ]] && export LD_LIBRARY_PATH="/usr/local/opt/llvm/lib:$LD_LIBRARY_PATH"
+[[ -z $USE_CTAG ]] && [[ "$(uname -a)" =~ Ubuntu ]] && export LD_LIBRARY_PATH="/usr/lib/llvm-5.0/lib:$LD_LIBRARY_PATH"
 
 comment_out $1 $2

@@ -14,8 +14,9 @@ class ClangFuncRangeParser:
         # NOTE: for avoid search extra include files
         # NOTE: Maybe, system-header-prefix is not needed?
         # NOTE: If you want to see the help of clang index parser, add '--help' options to below list
-        args = ['-nobuiltininc', '-nostdinc++', '--system-header-prefix=".*"']
-        self.tu = self.index.parse(None, [filepath, *args])
+        # args = ['-nobuiltininc', '-nostdinc++', '--system-header-prefix=".*"']
+        args = ['-nobuiltininc']
+        self.tu = self.index.parse("", [filepath, *args])
         if not self.tu:
             parser.error("unable to load input")
 
@@ -32,7 +33,7 @@ class ClangFuncRangeParser:
 
     def print_func_range_all(self):
         def _lambda(node):
-            if (any(node.kind.name in s for s in ['FUNCTION_DECL', 'CONSTRUCTOR', 'CXX_METHOD'])):
+            if (any(node.kind.name in s for s in ['FUNCTION_DECL', 'CONSTRUCTOR', 'CXX_METHOD', 'FUNCTION_TEMPLATE'])):
                 if (str(node.extent.start.file) == self.filepath):
                     print("file : %s" % node.extent.start.file)
                     print("function : %s" % node.displayname)
@@ -46,7 +47,7 @@ class ClangFuncRangeParser:
 
         def _lambda(node):
             nonlocal found_flag
-            if (any(node.kind.name in s for s in ['FUNCTION_DECL', 'CONSTRUCTOR', 'CXX_METHOD'])):
+            if (any(node.kind.name in s for s in ['FUNCTION_DECL', 'CONSTRUCTOR', 'CXX_METHOD', 'FUNCTION_TEMPLATE'])):
                 if (str(node.extent.start.file) == self.filepath):
                     if (node.extent.start.line <= line and line <= node.extent.end.line):
                         print("%s %s" % (node.extent.start.line, node.extent.end.line))

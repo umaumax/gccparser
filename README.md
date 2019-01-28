@@ -13,6 +13,9 @@ gccのコンパイル結果(error message)をパースして，何らかの処�
 ./cpp_comment_out.sh -i main.cpp 13
 ```
 
+## NOTE
+* しばしば，c++ファイルのヘッダにもかかわらず，拡張子が`.h`のファイルがある場合には，拡張子を`.hpp`としたファイルを作成する必要がある(symbolic linkでもよい)
+
 ### Issue of using ctags
 * `a`を指定すると`b`,`bb`もコメントアウトされてしまう
   * catgsの出力のoptionを工夫する必要がありそう
@@ -39,7 +42,22 @@ LD_LIBRARY_PATH="/usr/local/opt/llvm/lib:$LD_LIBRARY_PATH" ./cpp_func_def.py
 ```
 ### Ubuntu
 ```
-TODO: Write here!
+# pip3 install clang
+# or
+pip3 install clang-5
+LD_LIBRARY_PATH="/usr/lib/llvm-5.0/lib:$LD_LIBRARY_PATH" ./cpp_func_def.py
+```
+
+* 動作はするが、errorが出現することもある(たまに出てこない)ので，その理由を解析
+```
+Exception ignored in: <bound method TranslationUnit.__del__ of <clang.cindex.TranslationUnit object at 0x7fcd4e3e6b38>>
+Traceback (most recent call last):
+  File "~/.local/lib/python3.5/site-packages/clang/cindex.py", line 2749, in __del__
+AttributeError: 'NoneType' object has no attribute 'lib'
+Exception ignored in: <bound method Index.__del__ of <clang.cindex.Index object at 0x7fcd4e451d30>>
+Traceback (most recent call last):
+  File "~/.local/lib/python3.5/site-packages/clang/cindex.py", line 2580, in __del__
+AttributeError: 'NoneType' object has no attribute 'lib'
 ```
 
 ## FYI
