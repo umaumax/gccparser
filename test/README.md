@@ -23,6 +23,6 @@ git sed "$pattern" -- '*.cpp' '*.cxx' '*.cc' '*.c' '*.h' '*.hh' '*.hpp' '*.hxx' 
 ## fuzzy confirmation command
 ```
 git diff HEAD | grep -E '^[+-]' | grep -E '".*[0-9]f.*"'
-git diff HEAD | grep -E '^[+-]' | grep -E '\*.*[0-9]f.*'
+git diff HEAD | grep -E '^[+-]' | grep -E '^\s*\*.*[0-9]f.*'
 git diff HEAD | grep -E '^[+-]' | grep -E '[a-zA-Z0-9_]double|double[a-zA-Z0-9_]'
 ```
